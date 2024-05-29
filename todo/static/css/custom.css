@@ -45,10 +45,15 @@ input {
     background: linear-gradient(90deg, #EEA390 0%, #EB796F 43%, #EB796F 100%);
 }
 
-.header-bar a {
+.header-bar a, .header-bar button {
     color: rgb(247, 247, 247);
     text-decoration: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
 }
+
 
 .task-wrapper {
     display: flex;
