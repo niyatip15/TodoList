@@ -35,10 +35,13 @@ class Registeration(FormView):
         if self.request.user.is_authenticated:
             return redirect('tasks')
         return super(Registeration,self).get(*args, **kwargs)
-
-class TasksList(LoginRequiredMixin,ListView):
+    
+class TaskMixin(LoginRequiredMixin):
     model = Tasks
-    context_object_name = "data"
+    context_object_name ="data"
+    success_url = reverse_lazy('tasks')
+
+class TasksList(TaskMixin,ListView):
     template_name = 'base/tasks_list.html'
 
     def get_context_data(self,**kwargs):
@@ -51,29 +54,20 @@ class TasksList(LoginRequiredMixin,ListView):
         context['search_input'] = search_input
         return context
 
-class TaskDetail(LoginRequiredMixin,DetailView):
-    model = Tasks
-    context_object_name = 'data'
+class TaskDetail(TaskMixin,DetailView):
     template_name = 'base/task_detail.html'
 
-class TaskCreate(LoginRequiredMixin,CreateView):
-    model = Tasks
+class TaskCreate(TaskMixin,CreateView):
     fields = ['title','description','completed']
-    success_url = reverse_lazy('tasks')
     template_name = 'base/tasks.html'
 
     def form_valid(self,form):
         form.instance.user = self.request.user
         return super(TaskCreate,self).form_valid(form)
 
-class TaskUpdate(LoginRequiredMixin,UpdateView):
-    model = Tasks
+class TaskUpdate(TaskMixin,UpdateView):
     fields = ['title','description','completed']
-    success_url = reverse_lazy('tasks')
     template_name = 'base/tasks.html'
 
-class TaskDelete(LoginRequiredMixin,DeleteView):
-    model = Tasks
+class TaskDelete(TaskMixin,DeleteView):
     template_name = 'base/task_delete.html'
-    context_object_name = 'data'
-    success_url = reverse_lazy('tasks')
