@@ -12,7 +12,16 @@
     {%else%}
         <a href="{% url 'login' %}">Login</a>
     {%endif%}
+    <hr>
+    <h1>
+        My todo list
+    </h1>
+
     <a href="{% url 'task-create' %}">Add new Todo</a>
+    <form action="" method="get">
+        <input type="text" name="search" id="" placeholder="Search" value="{{search_input}}">
+        <input type="submit" value="Search">
+    </form>
     <table>
         <tr>
             <th>Item</th>
